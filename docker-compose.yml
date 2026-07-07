@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: risk-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - HIGH_RISK_THRESHOLD=0.65
+      - HARD_MARGIN_BREACH_RATIO=1.0
+      - MIN_SETTLEMENT_BUFFER_HOURS=2.0
+      - MAX_COUNTERPARTY_EXPOSURE=50000000
+    networks:
+      - risk-net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: risk-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - risk-net
+
+networks:
+  risk-net:
+    driver: bridge

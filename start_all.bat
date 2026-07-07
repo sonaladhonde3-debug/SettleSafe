@@ -1,0 +1,16 @@
+@echo off
+echo Starting Real-Time Risk Predictor Project...
+
+echo Starting Backend Server (Uvicorn)...
+start cmd /k "cd backend && uvicorn app.main:app --reload --port 8000"
+
+echo Waiting a few seconds for backend to start...
+timeout /t 3 /nobreak > NUL
+
+echo Starting Frontend Server (Vite)...
+start cmd /k "cd frontend && npm run dev"
+
+echo Starting Live Trade Simulator...
+start cmd /k "python backend\scripts\simulate_trades.py"
+
+echo All services started! Check your browser at http://localhost:5173
